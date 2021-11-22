@@ -1,0 +1,28 @@
+﻿@model IEnumerable<FindKočka.Models.Cat>
+
+@{
+    ViewData["Title"] = "MyCats";
+}
+
+<h1 class="text-light">MyCats</h1>
+
+<div class="container">
+    <a asp-action="Create" type="button" class="btn btn-primary" style="margin-bottom:6px">Add new</a>
+    <div class="row" data-masonry='{"percentPosition": true }'>
+        @foreach (var item in Model)
+        {
+            <div class="col-3">
+                <div class="card">
+                    <img src="@("/image/" + item.ImageName)" class="card-img-top" alt="Cat">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-primary">Description</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-outline-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">Delate</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

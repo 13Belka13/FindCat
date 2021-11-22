@@ -1,0 +1,35 @@
+﻿@model FindKočka.Models.RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style type="text/css">
+    body {
+        background: linear-gradient(to left, rgb(246, 211, 101), rgb(253, 160, 133));
+        margin: 0;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card auth">
+                <form asp-action="Register" class="box">
+                    <h1>Login</h1>
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Password again" />
+                    <input asp-for="FirstName" class="form-control" placeholder="Name" />
+                    <input asp-for="SecondName" class="form-control" placeholder="S. Name" />
+                    <input type="submit" name="" value="Register" href="#">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
