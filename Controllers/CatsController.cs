@@ -105,7 +105,9 @@ namespace FindKočka.Controllers
                     OwnerId = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).Id,
                     Description = model.Description,
                     ImageName = model.ImageName,
-                    Image = model.Image
+                    Image = model.Image,
+                    OwnerName = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).FirstName + " " + _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).SecondName,
+                    OwnerEmail = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).Email
                 };
 
                 _context.Cats.Add(cat);
