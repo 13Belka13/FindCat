@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindKočka.Migrations
 {
     [DbContext(typeof(FindKočkaContext))]
-    [Migration("20211030092230_1")]
-    partial class _1
+    [Migration("20211123091417_OwnerEmail")]
+    partial class OwnerEmail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,11 +33,20 @@ namespace FindKočka.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerEmail")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

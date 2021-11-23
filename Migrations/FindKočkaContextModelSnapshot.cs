@@ -37,8 +37,14 @@ namespace FindKočka.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OwnerEmail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

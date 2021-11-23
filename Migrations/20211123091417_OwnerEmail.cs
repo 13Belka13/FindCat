@@ -2,7 +2,7 @@
 
 namespace FindKočka.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class OwnerEmail : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,11 @@ namespace FindKočka.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    OwnerId = table.Column<int>(type: "int", nullable: false)
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OwnerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
