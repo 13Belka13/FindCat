@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - FindKočka</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/lib/crooperjs/dist/cropper.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -50,6 +50,11 @@
             </div>
         </nav>
     </header>
+    <section class="fullscreen">
+        <main role="main" class="pb-3">
+            @RenderSection("fullscreen", required: false)
+        </main>
+    </section>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

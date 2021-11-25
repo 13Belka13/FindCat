@@ -213,3 +213,30 @@ hr .new1 {
     color: #a0a0a0;
     font-weight: bold
 }
+
+.main-img {
+    background: url("Family_Portrait_2048x2048.jpg");
+    background-size: cover;
+    min-height: 50vh;
+    position: absolute;
+    top: 50%;
+    margin-top: -280px;
+    width: 100%;
+}
+
+.main-img:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(3px);
+    background-color: rgba(33, 0, 122, 0.2);
+}
+
+.main-img h2, h4 {
+    font-family: 'Fredoka One', cursive;
+    position: relative;
+    z-index: 1;
+}
