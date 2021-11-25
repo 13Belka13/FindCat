@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FindKočka.Data;
+using FindKočka.Services;
 
 namespace FindKočka.Controllers
 {
@@ -16,17 +17,20 @@ namespace FindKočka.Controllers
 
         private readonly FindKočkaContext _context;
 
-        public HomeController(ILogger<HomeController> logger, FindKočkaContext context)
+        private readonly IUserService _userService;
+
+        public HomeController(ILogger<HomeController> logger, FindKočkaContext context, IUserService userService)
         {
             _logger = logger;
             _context = context;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
             if (this.User.Identity.Name != null)
             {
-                ViewBag.userId = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).Id;
+                ViewBag.userId = _userService.GetUserId(this.User);
             }
 
             else

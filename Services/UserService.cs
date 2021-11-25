@@ -24,7 +24,7 @@ namespace FindKočka.Services
         {
             if (User.Identity.Name != null)
             {
-                return _context.Owners.FirstOrDefault(u => u.Email == User.Identity.Name).Id;
+                return _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == User.Identity.Name).Id;
             }
 
             else

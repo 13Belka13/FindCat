@@ -16,6 +16,7 @@ namespace FindKočka.Models
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public ICollection<Cat> CatsId { get; set; }
+        public string Number { get; set; }
 
     }
 }

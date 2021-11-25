@@ -102,12 +102,13 @@ namespace FindKočka.Controllers
                 {
                     Name = model.Name,
                     Age = model.Age,
-                    OwnerId = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).Id,
+                    OwnerId = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).Id,
                     Description = model.Description,
                     ImageName = model.ImageName,
                     Image = model.Image,
-                    OwnerName = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).FirstName + " " + _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).SecondName,
-                    OwnerEmail = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).Email
+                    OwnerName = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).FirstName + " " + _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).SecondName,
+                    OwnerEmail = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).Email,
+                    OwnerNumber = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).Number
                 };
 
                 _context.Cats.Add(cat);
@@ -153,7 +154,6 @@ namespace FindKočka.Controllers
 
             if (ModelState.IsValid)
             {
-                cat.OwnerId = _context.Owners.FirstOrDefault(u => u.Email == this.User.Identity.Name).Id;
 
                 if (cat.Image != null)
                 {

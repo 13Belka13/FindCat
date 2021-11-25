@@ -17,11 +17,18 @@
             <div class="card auth">
                 <form asp-action="Register" class="box">
                     <h1>Login</h1>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                     <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                     <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     <input asp-for="ConfirmPassword" class="form-control" placeholder="Password again" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                     <input asp-for="FirstName" class="form-control" placeholder="Name" />
+                    <span asp-validation-for="SecondName" class="text-danger"></span>
                     <input asp-for="SecondName" class="form-control" placeholder="S. Name" />
+                    <span asp-validation-for="Number" class="text-danger"></span>
+                    <input asp-for="Number" class="form-control" placeholder="Phone Number" />
                     <input type="submit" name="" value="Register" href="#">
                 </form>
             </div>

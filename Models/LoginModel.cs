@@ -8,10 +8,10 @@ namespace FindKočka.Models
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Укажите Email")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "Enter email or phone number")]
+        public string Login { get; set; }
 
-        [Required(ErrorMessage = "Укажите пароль")]
+        [Required(ErrorMessage = "Enter password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

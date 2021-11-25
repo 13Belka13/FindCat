@@ -18,7 +18,9 @@
             <span class="name mt-3"><h1>@Html.DisplayFor(model => model.Name)</h1></span>
             <div class="d-flex flex-row justify-content-center align-items-center mt-3"> <span class="number"><span class="follow">Age </span>@Html.DisplayFor(model => model.Age)</span> </div>
             <div class="mt-3"> <span>@Html.DisplayFor(model => model.Description)</span> </div>
-            <h6 class="card-subtitle mb-2 text-muted" style="margin-top:20px">@Html.DisplayFor(model => model.OwnerEmail) @Html.DisplayFor(model => model.OwnerName) - owner</h6>
+            <h6 class="card-subtitle mb-1 text-muted" style="margin-top:40px"><u>@Html.DisplayFor(model => model.OwnerName)</u></h6>
+            <h6 class="card-subtitle text-muted" style="margin-top:20px">@Html.DisplayFor(model => model.OwnerEmail)</h6>
+            <h6 class="card-subtitle text-muted" style="margin-top:10px">@Html.DisplayFor(model => model.OwnerNumber)</h6>
         </div>
     </div>
 </div>

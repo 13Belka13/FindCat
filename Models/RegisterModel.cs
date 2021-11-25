@@ -8,18 +8,23 @@ namespace FindKočka.Models
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage ="Укажите Email")]
+        [Required(ErrorMessage ="Enter Email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Укажите пароль")]
+        [Required(ErrorMessage = "Enter password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Укажите пароль")]
-        [Compare("Password", ErrorMessage ="Пароли не совпадают")]
+        [Required(ErrorMessage = "Enter password")]
+        [Compare("Password", ErrorMessage = "Password mismatch")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
+
+        [Required(ErrorMessage = "Enter phone number")]
+        [Phone]
+        public string Number { get; set; }
     }
 }

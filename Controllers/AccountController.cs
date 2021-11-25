@@ -33,10 +33,10 @@ namespace FindKočka.Controllers
         {
             if (ModelState.IsValid)
             {
-                Owner owner = await db.Owners.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                Owner owner = await db.Owners.FirstOrDefaultAsync(u => (u.Email == model.Login | u.Number == model.Login) && u.Password == model.Password);
                 if (owner != null)
                 {
-                    await Authenticate(model.Email);
+                    await Authenticate(model.Login);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -66,6 +66,7 @@ namespace FindKočka.Controllers
                         Password = model.Password,
                         FirstName = model.FirstName,
                         SecondName = model.SecondName,
+                        Number = model.Number
                     };
 
                     db.Owners.Add(owner);

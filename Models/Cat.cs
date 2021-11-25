@@ -15,6 +15,7 @@ namespace FindKočka.Models
         public int OwnerId { get; set; }
         public string OwnerName { get; set; }
         public string OwnerEmail { get; set; }
+        public string OwnerNumber { get; set; }
         public string Description { get; set; }
         public string ImageName { get; set; }
         
