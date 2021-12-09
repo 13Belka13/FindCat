@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FindKočka.Models
 {
@@ -20,7 +16,11 @@ namespace FindKočka.Models
         [Compare("Password", ErrorMessage = "Password mismatch")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Enter your first name")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Enter you second name")]
         public string SecondName { get; set; }
 
         [Required(ErrorMessage = "Enter phone number")]

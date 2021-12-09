@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FindKočka.Data;
 using FindKočka.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using FindKočka.Services;
-using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
@@ -30,12 +26,9 @@ namespace FindKočka.Controllers
             this._hostEnvironment = hostEnvironment;
         }
 
-        // GET: Cats
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            ViewBag.userId = _userService.GetUserId(this.User);
-
             return View(await _context.Cats.ToListAsync());
         }
 
@@ -45,7 +38,6 @@ namespace FindKočka.Controllers
             return View(await _context.Cats.Where(x => x.OwnerId == userId).ToListAsync());
         }
 
-        // GET: Cats/Details/5
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
@@ -54,14 +46,11 @@ namespace FindKočka.Controllers
                 return NotFound();
             }
 
-            var cat = await _context.Cats
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cat = await _context.Cats.FirstOrDefaultAsync(m => m.Id == id);
             if (cat == null)
             {
                 return NotFound();
             }
-
-            ViewBag.userId = _userService.GetUserId(this.User);
 
             return View(cat);
         }
@@ -72,9 +61,6 @@ namespace FindKočka.Controllers
             return View();
         }
 
-        // POST: Cats/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Cat model)
@@ -98,17 +84,18 @@ namespace FindKočka.Controllers
                     }
                 }
 
+                var user = _context.Owners.FirstOrDefault(u => u.Id == _userService.GetUserId(this.User));
+
                 Cat cat = new Cat
                 {
                     Name = model.Name,
                     Age = model.Age,
-                    OwnerId = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).Id,
+                    OwnerId = user.Id,
                     Description = model.Description,
                     ImageName = model.ImageName,
-                    Image = model.Image,
-                    OwnerName = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).FirstName + " " + _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).SecondName,
-                    OwnerEmail = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).Email,
-                    OwnerNumber = _context.Owners.FirstOrDefault(u => u.Number == User.Identity.Name | u.Email == this.User.Identity.Name).Number
+                    OwnerName = user.FirstName + " " + user.SecondName,
+                    OwnerEmail = user.Email,
+                    OwnerNumber = user.Number
                 };
 
                 _context.Cats.Add(cat);
@@ -118,7 +105,6 @@ namespace FindKočka.Controllers
             return View(model);
         }
 
-        // GET: Cats/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -140,9 +126,6 @@ namespace FindKočka.Controllers
             return View(cat);
         }
 
-        // POST: Cats/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Cat cat)
@@ -198,7 +181,6 @@ namespace FindKočka.Controllers
             return View(cat);
         }
 
-        // GET: Cats/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -221,7 +203,6 @@ namespace FindKočka.Controllers
             return View(cat);
         }
 
-        // POST: Cats/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

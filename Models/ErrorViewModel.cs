@@ -1,5 +1,3 @@
-using System;
-
 namespace FindKočka.Models
 {
     public class ErrorViewModel
