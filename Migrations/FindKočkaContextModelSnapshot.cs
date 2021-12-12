@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FindKočka.Migrations
+namespace FindCat.Migrations
 {
     [DbContext(typeof(FindKočkaContext))]
     partial class FindKočkaContextModelSnapshot : ModelSnapshot
@@ -35,6 +35,7 @@ namespace FindKočka.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerEmail")

@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FindKočka.Data;
+using FindKočka.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using FindKočka.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using FindKočka.Services;
 
 namespace FindKočka
 {
@@ -21,21 +26,30 @@ namespace FindKočka
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var server = Configuration["DbServer"] ?? "localhost";
+            var port = Configuration["DbPort"] ?? "1433"; // Default SQL Server port
+            var user = Configuration["DbUser"] ?? "SA"; // Warning do not use the SA account
+            var password = Configuration["Password"] ?? "Youtube2021";
+            var database = Configuration["Database"] ?? "catDb";
+
+
+            services.AddDbContext<FindKočkaContext>(options => 
+                options.UseSqlServer($"Server={server}, {port};Initial Catalog={database};User ID={user};Password={password}"));
+                
             services.AddControllersWithViews();
 
-            services.AddDbContext<FindKočkaContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("FindKočkaContext")));
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                {
-                        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-                    });
+        .AddCookie(options =>
+                    {
+            options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+        });
             services.AddScoped<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            DatabaseManagementService.MigrationInitialisation(app);
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -74,8 +74,8 @@ namespace FindKočka.Controllers
                     string wwwRootPath = _hostEnvironment.WebRootPath;
                     string fileName = Path.GetFileNameWithoutExtension(model.Image.FileName);
                     string extension = Path.GetExtension(model.Image.FileName);
-                    model.ImageName=fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    var filePath = Path.Combine(wwwRootPath + "/Image", fileName);
+                    model.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    var filePath = Path.Combine(wwwRootPath + "/image", fileName);
 
 
                     using (var stream = System.IO.File.Create(filePath))
@@ -151,7 +151,7 @@ namespace FindKočka.Controllers
                     string fileName = Path.GetFileNameWithoutExtension(cat.Image.FileName);
                     string extension = Path.GetExtension(cat.Image.FileName);
                     cat.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    var filePath = Path.Combine(wwwRootPath + "/Image", fileName);
+                    var filePath = Path.Combine(wwwRootPath + "/image", fileName);
 
 
                     using (var stream = System.IO.File.Create(filePath))
