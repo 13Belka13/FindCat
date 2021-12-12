@@ -4,46 +4,71 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FindKočka.Data;
 using FindKočka.Models;
+using Microsoft.AspNetCore.Authorization;
+using FindKočka.Services;
 
 namespace FindKočka.Controllers
 {
+    [Authorize]
     public class OwnersController : Controller
     {
         private readonly FindKočkaContext _context;
+        private readonly IUserService _userService;
 
-        public OwnersController(FindKočkaContext context)
+        public OwnersController(FindKočkaContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
-
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Owners.ToListAsync());
+            if (_userService.GetUserId(this.User) == 1)
+            {
+                return View(await _context.Owners.ToListAsync());
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (_userService.GetUserId(this.User) == 1)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var owner = await _context.Owners
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (owner == null)
+                {
+                    return NotFound();
+                }
+
+                return View(owner);
+            }
+            else
             {
                 return NotFound();
             }
-
-            var owner = await _context.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
-            {
-                return NotFound();
-            }
-
-            return View(owner);
         }
 
 
         public IActionResult Create()
         {
-            return View();
+            if (_userService.GetUserId(this.User) == 1)
+            {
+                return View();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
 
@@ -51,29 +76,43 @@ namespace FindKočka.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Email,Password")] Owner owner)
         {
-            if (ModelState.IsValid)
+            if (_userService.GetUserId(this.User) == 1)
             {
-                _context.Add(owner);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(owner);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(owner);
             }
-            return View(owner);
+            else
+            {
+                return NotFound();
+            }
         }
 
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (_userService.GetUserId(this.User) == 1)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner == null)
+                var owner = await _context.Owners.FindAsync(id);
+                if (owner == null)
+                {
+                    return NotFound();
+                }
+                return View(owner);
+            }
+            else
             {
                 return NotFound();
-            }
-            return View(owner);
+            }    
         }
 
 
@@ -81,50 +120,64 @@ namespace FindKočka.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Password")] Owner owner)
         {
-            if (id != owner.Id)
+            if (_userService.GetUserId(this.User) == 1)
+            {
+                if (id != owner.Id)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(owner);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!OwnerExists(owner.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(owner);
+            }
+            else
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(owner);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(owner);
         }
 
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (_userService.GetUserId(this.User) == 1)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var owner = await _context.Owners
+                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (owner == null)
+                {
+                    return NotFound();
+                }
+
+                return View(owner);
+            }
+            else
             {
                 return NotFound();
-            }
-
-            var owner = await _context.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
-            {
-                return NotFound();
-            }
-
-            return View(owner);
+            }    
         }
 
 
